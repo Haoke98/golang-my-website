@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
@@ -68,8 +69,8 @@ type Account struct {
 	Email    string
 }
 type Password struct {
-	Content  string
-	BelongTo Account
+	Content   string `json:"content"`
+	AccountId uint64 `json:"account_id"`
 }
 
 var CsvDataFileName string = "accounts.csv"
@@ -171,7 +172,7 @@ func PasswordHandler(w http.ResponseWriter, r *http.Request) {
 	var err error
 	switch r.Method {
 	case "GET":
-		err = AccountGET(w, r)
+		err = PasswordGet(w, r)
 		break
 	case "POST":
 		break
@@ -184,6 +185,33 @@ func PasswordHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+func PasswordGet(w http.ResponseWriter, r *http.Request) (err error) {
+	r.ParseForm()
+	value := r.Form["id"][0]
+	id, _ := strconv.ParseUint(value, 0, strconv.IntSize)
+	if IdMax < id {
+		w.WriteHeader(400)
+		return err
+	} else {
+		account := AccountById[id]
+		if account == nil {
+			w.WriteHeader(400)
+			return err
+		} else {
+			password := account.Password
+			passwordFinal := Password{Content: password, AccountId: id}
+			output, err := json.MarshalIndent(&passwordFinal, "", "\t\t")
+			if err != nil {
+				return err
+			} else {
+				w.Header().Set("Content-Type", "application/json")
+				w.Write(output)
+				w.WriteHeader(200)
+			}
+		}
+	}
+	return err
 }
 func AccountGET(w http.ResponseWriter, r *http.Request) (err error) {
 	var accounts []*Account
