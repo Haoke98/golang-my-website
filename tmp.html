@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello world!</title>
+</head>
+<style type="text/css">
+    .username-password-div{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .copyImg{
+        width:20px;
+        height:20px;
+        /*background-image: url();*/
+        background-size:100% 100%;
+    }
+    .copyImg:active{
+        transform: translateY(4px);
+    }
+
+</style>
+<body>
+<script type="text/javascript">
+    function copyStr(str) {
+        var oInput = document.createElement('input');
+        oInput.value = str;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        oInput.className = 'oInput';
+        oInput.style.display = 'none';
+    }
+    function getPassword(id){
+
+        return "*******"
+    }
+    function copyPassword(id){
+        copyStr(getPassword(id))
+    }
+</script>
+<table border="1">
+    <tr>
+        <th>ID</th><th>账号名</th><th>用户名</th><th>密码</th><th>地址</th><th>电话</th>
+    </tr>
+    {{ range . }}
+    <tr>
+        <td>{{.Id}}</td>
+        <td>{{.Name}}</td>
+        <td>{{.Username}}<img class="copyImg" src="https://img-blog.csdnimg.cn/20200515000203956.png?x-oss-process=image/resize,m_fixed,h_64,w_64" onclick="copyStr('{{.Username}}')" title="复制用户名"></td>
+        <td>********<img class="copyImg" onclick="copyPassword('{{.Id}}')" src="https://img-blog.csdnimg.cn/20200515000203956.png?x-oss-process=image/resize,m_fixed,h_64,w_64" title="复制密码"></td>
+        <td><a href="{{.Url}}" target="_blank">{{.Url}}</a></td>
+        <td>{{.Tel}}</td>
+    </tr>
+    {{ end }}
+</table>
+</body>
+</html>
