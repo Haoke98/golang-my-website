@@ -1,8 +1,9 @@
-package main
+package password
 
 import (
 	"encoding/json"
 	"net/http"
+	"sadam.com/m/account"
 	"strconv"
 )
 
@@ -33,11 +34,11 @@ func PasswordGet(w http.ResponseWriter, r *http.Request) (err error) {
 	r.ParseForm()
 	value := r.Form["id"][0]
 	id, _ := strconv.ParseUint(value, 0, strconv.IntSize)
-	if IdMax < id {
+	if account.IdMax < id {
 		w.WriteHeader(400)
 		return err
 	} else {
-		account := AccountById[id]
+		account := account.AccountById[id]
 		if account == nil {
 			w.WriteHeader(400)
 			return err

@@ -1,4 +1,4 @@
-package main
+package account
 
 import (
 	"encoding/csv"
@@ -27,7 +27,7 @@ func (account *Account) store() {
 	AccountById[account.Id] = account
 	AccountByName[account.Name] = account
 }
-func (account *Account) save() {
+func (account *Account) Save() {
 	IdMax++
 	account.Id = IdMax
 	account.store()
@@ -48,7 +48,7 @@ func (account *Account) save() {
 	csvDataFile.Close()
 }
 
-func load() {
+func Load() {
 	file, err := os.Open(CsvDataFileName)
 	if err != nil {
 		panic(err)

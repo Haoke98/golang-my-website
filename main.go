@@ -4,19 +4,21 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"sadam.com/m/account"
+	"sadam.com/m/password"
 	"time"
 )
 
 func headerHandlerFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(w, "有人访问了该接口", r.Header)
 	fmt.Println(rand.Intn(1000000))
-	var testAccount = Account{Name: "gitee", Username: "sadam98", Password: "1a2b3c4d5@S", Url: "https://gitee.com", Tel: "18810720138", Email: "1903249375@qq.com"}
-	testAccount.save()
+	var testAccount = account.Account{Name: "gitee", Username: "sadam98", Password: "1a2b3c4d5@S", Url: "https://gitee.com", Tel: "18810720138", Email: "1903249375@qq.com"}
+	testAccount.Save()
 }
 
 func cookieHandlerFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "有人访问了该接口", r.Header.Get("cookie"))
-	load()
+	account.Load()
 }
 
 func log(h http.HandlerFunc) http.HandlerFunc {
@@ -57,9 +59,9 @@ func main() {
 
 	http.Handle("/header", log(headerHandlerFunc))
 	http.Handle("/cookie", log(cookieHandlerFunc))
-	http.Handle("/account", log(AccountHandler))
-	http.Handle("/password", log(PasswordHandler))
-	load()
+	http.Handle("/account", log(account.AccountHandler))
+	http.Handle("/password", log(password.PasswordHandler))
+	account.Load()
 	server.ListenAndServe()
 
 }
