@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"sadam.com/m/account"
 	"sadam.com/m/password"
+	"sadam.com/m/video"
 	"time"
 )
 
@@ -61,6 +62,7 @@ func main() {
 	http.Handle("/cookie", log(cookieHandlerFunc))
 	http.Handle("/account", log(account.AccountHandler))
 	http.Handle("/password", log(password.PasswordHandler))
+	http.Handle("/video", log(video.VideoHandler))
 	account.Load()
 	server.ListenAndServe()
 
