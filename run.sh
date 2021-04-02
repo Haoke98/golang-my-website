@@ -1,0 +1,1 @@
+nohup ./linuxBuild_linux > linuxBuild_linux.log 2>&1 &

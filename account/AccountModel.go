@@ -49,7 +49,7 @@ func (account *Account) Save() {
 }
 
 func Load() {
-	file, err := os.Open(CsvDataFileName)
+	file, err := os.OpenFile(CsvDataFileName, os.O_CREATE|os.O_RDWR|os.O_APPEND, os.ModeAppend|os.ModePerm)
 	if err != nil {
 		panic(err)
 	}
