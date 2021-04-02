@@ -62,7 +62,7 @@ func main() {
 	http.Handle("/cookie", log(cookieHandlerFunc))
 	http.Handle("/account", log(account.AccountHandler))
 	http.Handle("/password", log(password.PasswordHandler))
-	http.Handle("/video", log(video.VideoHandler))
+	http.Handle("/video**", log(video.VideoHandler))
 	account.Load()
 	server.ListenAndServe()
 
