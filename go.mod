@@ -2,4 +2,7 @@ module sadam.com/m
 
 go 1.15
 
-require github.com/elastic/go-elasticsearch/v6 v6.8.10
+require (
+	github.com/elastic/go-elasticsearch/v6 v6.8.10
+	github.com/go-sql-driver/mysql v1.6.0
+)
