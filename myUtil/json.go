@@ -11,7 +11,7 @@ import (
 )
 
 func BeautyConsolePrint(s interface{}) {
-	fmt.Print(BeautifyString(s))
+	fmt.Println(BeautifyString(s))
 }
 func BeautifyString(s interface{}) string {
 	out := beautify(s)

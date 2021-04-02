@@ -1,8 +1,10 @@
 package video
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"sadam.com/m/myUtil"
@@ -43,12 +45,21 @@ func VideoGET(w http.ResponseWriter, r *http.Request) (err error) {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err == nil {
-			fmt.Println(body)
-			myUtil.BeautyConsolePrint(body)
+			result := map[string]interface{}{}
+			json.Unmarshal(body, &result)
+			myUtil.BeautyConsolePrint(result)
+			openId := result["openid"]
+			sessionKey := result["session_key"]
+			fmt.Println(openId, sessionKey)
+			b, err := json.Marshal(openId)
+			if err == nil {
+				w.Write(b)
+			} else {
+				log.Fatal(err)
+			}
 		} else {
-			fmt.Println(err)
+			log.Fatal(err)
 		}
-		w.Write([]byte(jsCode))
 	} else {
 		fmt.Println(err)
 	}
