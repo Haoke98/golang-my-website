@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"sadam.com/m/myUtil"
+	"strconv"
 	"time"
 )
 
@@ -35,14 +36,20 @@ func VideoHandler(w http.ResponseWriter, r *http.Request) {
 func VideoGET(w http.ResponseWriter, r *http.Request) (err error) {
 	fmt.Println("this is VideoGet, the Request's url is :", r.URL)
 	r.ParseForm()
-	jsCode := r.Form["jsCode"][0]
+	vidStr := r.Form["vid"][0]
+	vid, err := strconv.Atoi(vidStr)
+	if err == nil {
+		video := GetVideoById(vid)
+		log.Println(video)
+	} else {
+		log.Println(err)
+	}
 	targetUri := "https://api.weixin.qq.com/sns/jscode2session"
 
 	resp, err := http.PostForm(targetUri, url.Values{
 		"appid":      {"wx3723124dbb36e3eb"},
 		"secret":     {"7b336b4fc0d26313fd848581c5e818af"},
 		"grant_type": {"authorization_code"},
-		"js_code":    {jsCode},
 	})
 	if err == nil {
 		defer resp.Body.Close()
