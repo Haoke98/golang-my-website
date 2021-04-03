@@ -57,7 +57,7 @@ func VideoGET(w http.ResponseWriter, r *http.Request) (err error) {
 
 			db, err := sql.Open("mysql", "root:qwer1234@tcp(139.155.30.83:3306)/izbasar?charset=utf8")
 			if err != nil {
-				log.Fatal(err)
+				log.Print(err)
 			} else {
 				defer db.Close()
 				//_,err = db.Exec()
@@ -86,7 +86,7 @@ func VideoGET(w http.ResponseWriter, r *http.Request) (err error) {
 					for rows.Next() {
 						err = rows.Scan(&userId)
 						if err != nil {
-							log.Fatal(err)
+							log.Print(err)
 						} else {
 							fmt.Println("the id is :", userId)
 							//"UPDATE table_name SET field1=new-value1, field2=new-value2\n[WHERE Clause]"
@@ -105,13 +105,13 @@ func VideoGET(w http.ResponseWriter, r *http.Request) (err error) {
 							fmt.Println("新建一个openid为", openId, "的user成功！")
 						} else {
 							fmt.Println("新建一个openid为", openId, "的user成功！")
-							log.Fatal(err)
+							log.Print(err)
 						}
 					} else if i > 0 {
 						fmt.Println("已经找到了并进行更新了，没必要插入")
 					}
 				} else {
-					log.Fatal(err)
+					log.Print(err)
 				}
 			}
 
@@ -119,10 +119,10 @@ func VideoGET(w http.ResponseWriter, r *http.Request) (err error) {
 			if err == nil {
 				w.Write(b)
 			} else {
-				log.Fatal(err)
+				log.Print(err)
 			}
 		} else {
-			log.Fatal(err)
+			log.Print(err)
 		}
 	} else {
 		fmt.Println(err)
