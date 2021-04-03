@@ -5,7 +5,9 @@ import (
 	"math/rand"
 	"net/http"
 	"sadam.com/m/account"
+	"sadam.com/m/openid"
 	"sadam.com/m/password"
+	"sadam.com/m/user"
 	"sadam.com/m/video"
 	"time"
 )
@@ -62,7 +64,9 @@ func main() {
 	http.Handle("/cookie", log(cookieHandlerFunc))
 	http.Handle("/account", log(account.AccountHandler))
 	http.Handle("/password", log(password.PasswordHandler))
-	http.Handle("/video**", log(video.VideoHandler))
+	http.Handle("/video", log(video.VideoHandler))
+	http.Handle("/openid", log(openid.OpenIdHandler))
+	http.Handle("/user", log(user.UserHandler))
 	account.Load()
 	server.ListenAndServe()
 
