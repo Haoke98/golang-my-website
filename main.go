@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"sadam.com/m/account"
@@ -9,7 +10,6 @@ import (
 	"sadam.com/m/password"
 	"sadam.com/m/user"
 	"sadam.com/m/video"
-	"time"
 )
 
 func headerHandlerFunc(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +24,7 @@ func cookieHandlerFunc(w http.ResponseWriter, r *http.Request) {
 	account.Load()
 }
 
-func log(h http.HandlerFunc) http.HandlerFunc {
+func logHandlerFunc(h http.HandlerFunc) http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		err := request.ParseForm()
 		if err == nil {
@@ -32,7 +32,8 @@ func log(h http.HandlerFunc) http.HandlerFunc {
 		} else {
 			//fmt.Printf("IP:%s Path:%s,Method:%s,Header:%s\n",request.RemoteAddr,request.URL,request.Method,request.Header)
 		}
-		fmt.Printf("Time:[%s], IP:[%s] Path:[%s],Method:[%s],Form:[%s],Header:[%s]\n", time.Now(), request.RemoteAddr, request.URL, request.Method, request.Form, request.Header)
+		//log.Print("IP:[%s] Path:[%s],Method:[%s],Form:[%s],Header:[%s]\n",request.RemoteAddr, request.URL, request.Method, request.Form, request.Header)
+		log.Print("《", request.RemoteAddr, "》《", request.URL, "》《", request.Method, "》《", request.Form, "》《", request.Header, "》")
 		//fmt.Println("This is Form",request.Form)
 		//name:=runtime.FuncForPC(reflect.ValueOf(h).Pointer()).Name()
 		//fmt.Println("This is Host",request.Host)
@@ -60,13 +61,13 @@ func main() {
 		Addr: "0.0.0.0:7005",
 	}
 
-	http.Handle("/header", log(headerHandlerFunc))
-	http.Handle("/cookie", log(cookieHandlerFunc))
-	http.Handle("/account", log(account.AccountHandler))
-	http.Handle("/password", log(password.PasswordHandler))
-	http.Handle("/video", log(video.VideoHandler))
-	http.Handle("/openid", log(openid.OpenIdHandler))
-	http.Handle("/user", log(user.UserHandler))
+	http.Handle("/header", logHandlerFunc(headerHandlerFunc))
+	http.Handle("/cookie", logHandlerFunc(cookieHandlerFunc))
+	http.Handle("/account", logHandlerFunc(account.AccountHandler))
+	http.Handle("/password", logHandlerFunc(password.PasswordHandler))
+	http.Handle("/video", logHandlerFunc(video.VideoHandler))
+	http.Handle("/openid", logHandlerFunc(openid.OpenIdHandler))
+	http.Handle("/user", logHandlerFunc(user.UserHandler))
 	account.Load()
 	server.ListenAndServe()
 
