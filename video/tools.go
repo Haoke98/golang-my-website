@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"sadam.com/m/httpHelper"
 	"sadam.com/m/myUtil"
+	"sadam.com/m/myUtil/httpHelper"
 )
 
 func GetOfficialAccountVideoPureUlr(vid string) (pureUrl string) {

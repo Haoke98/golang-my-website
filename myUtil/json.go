@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	http_helper "sadam.com/m/httpHelper"
+	"sadam.com/m/myUtil/httpHelper"
 )
 
 func BeautyConsolePrint(s interface{}) {
@@ -26,7 +26,7 @@ func BeautySaving(s interface{}, fileName string, mode os.FileMode) {
 	}
 }
 func beautify(s interface{}) bytes.Buffer {
-	b, err := http_helper.JSONMarshal(s)
+	b, err := httpHelper.JSONMarshal(s)
 	if err != nil {
 		log.Fatalln(err)
 	}
