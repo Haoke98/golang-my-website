@@ -3,14 +3,14 @@ package httpHelper
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"io/ioutil"
 	"log"
-	"net/http"
 )
 
-func ParseBody(resp *http.Response) map[string]interface{} {
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+func ParseBody(resBody io.ReadCloser) map[string]interface{} {
+	defer resBody.Close()
+	body, err := ioutil.ReadAll(resBody)
 	if err != nil {
 		log.Println("An error has occurred when parsing the response body:", err)
 	} else {

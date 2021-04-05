@@ -15,7 +15,7 @@ func GetOfficialAccountVideoPureUlr(vid string) (pureUrl string) {
 	if err != nil {
 		log.Println("An error has occurred when request the mp.weixin.qq.com to get the url of the video", err)
 	} else {
-		result := httpHelper.ParseBody(resp)
+		result := httpHelper.ParseBody(resp.Body)
 		myUtil.BeautyConsolePrint(result)
 		urlInfo := result["url_info"]
 		i := urlInfo.([]interface{})
