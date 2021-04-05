@@ -33,7 +33,7 @@ func logHandlerFunc(h http.HandlerFunc) http.HandlerFunc {
 			//fmt.Printf("IP:%s Path:%s,Method:%s,Header:%s\n",request.RemoteAddr,request.URL,request.Method,request.Header)
 		}
 		//log.Print("IP:[%s] Path:[%s],Method:[%s],Form:[%s],Header:[%s]\n",request.RemoteAddr, request.URL, request.Method, request.Form, request.Header)
-		log.Print("《", request.RemoteAddr, "》《", request.URL, "》《", request.Method, "》《", request.Form, "》《", request.Header, "》")
+		log.Println("《", request.RemoteAddr, "》《", request.URL, "》《", request.Method, "》《", request.Form, "》《", request.Header, "》")
 		//fmt.Println("This is Form",request.Form)
 		//name:=runtime.FuncForPC(reflect.ValueOf(h).Pointer()).Name()
 		//fmt.Println("This is Host",request.Host)
