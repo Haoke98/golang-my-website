@@ -39,6 +39,7 @@ func VideoGET(w http.ResponseWriter, r *http.Request) (err error) {
 	if err == nil {
 		video := GetVideoById(id)
 		log.Println(video)
+		video.UpdateShowTimes()
 	} else {
 		log.Println(err)
 	}

@@ -8,6 +8,7 @@ import (
 func GetVideoById(id int) Video {
 	video := Video{Id: id}
 	db := database.GetDB()
+	defer db.Close()
 	rows, err := db.Query("SELECT last_changed_time,showTimes,episodeNum,url,vid,belongTo_id,cover_id FROM miniProgram_video where id=?", id)
 	if err == nil {
 		for rows.Next() {
@@ -31,8 +32,9 @@ func GetVideoById(id int) Video {
 /**
 默认是UPDATE模式，INSERT只会在初次创建时使用。
 */
-func Save(video Video) {
+func Save(video *Video) {
 	db := database.GetDB()
+	defer db.Close()
 	_, err := db.Exec("UPDATE miniProgram_video SET last_changed_time=?,showTimes=?,episodeNum=?,url=?,vid=?,belongTo_id=?,cover_id=? WHERE id=?", video.LastChangedTime, video.ShowTimes, video.EpisodeNum, video.Url, video.Vid, video.BelongToId, video.CoverId, video.Id)
 	if err != nil {
 		log.Print("An error when saving video:", video, "to the Database:", err)

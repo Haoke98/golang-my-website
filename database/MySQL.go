@@ -11,7 +11,6 @@ func GetDB() *sql.DB {
 		log.Print("An error has been occurred when connecting to the database server:", err)
 		return db
 	} else {
-		defer db.Close()
 		return db
 	}
 }

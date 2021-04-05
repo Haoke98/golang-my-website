@@ -26,5 +26,16 @@ func (v *Video) SetLastChangedTime(timeStr string) {
 		log.Print("An err occurred when set last changed time to the Video Object:", err)
 	}
 }
+func (v *Video) updateChangedTime() {
+	v.LastChangedTime = time.Now()
+}
+func (v *Video) Save() {
+	v.updateChangedTime()
+	Save(v)
+}
 
+func (v *Video) UpdateShowTimes() {
+	v.ShowTimes++
+	v.Save()
+}
 func (v *Video) String() string { return "" }
