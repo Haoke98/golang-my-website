@@ -41,10 +41,7 @@ func GET(w http.ResponseWriter, r *http.Request) (err error) {
 			video.UpdateShowTimes()
 			pureUrl := video.GetPureUrl()
 			log.Println(pureUrl)
-			_, err = w.Write([]byte(pureUrl))
-			if err != nil {
-				log.Println("An error has occurred when writing the pure url to the response:", err)
-			}
+			http.Redirect(w, r, pureUrl, http.StatusTemporaryRedirect)
 		} else {
 			log.Println(err)
 		}
