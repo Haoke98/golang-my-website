@@ -2,6 +2,7 @@ package video
 
 import (
 	"log"
+	"strings"
 	"time"
 )
 
@@ -26,6 +27,7 @@ func (v *Video) SetLastChangedTime(timeStr string) {
 		log.Print("An err occurred when set last changed time to the Video Object:", err)
 	}
 }
+func (v *Video) String() string { return "" }
 func (v *Video) updateChangedTime() {
 	v.LastChangedTime = time.Now()
 }
@@ -38,4 +40,13 @@ func (v *Video) UpdateShowTimes() {
 	v.ShowTimes++
 	v.Save()
 }
-func (v *Video) String() string { return "" }
+func (v *Video) GetPureUrl() string {
+	if strings.Contains(v.Vid, "wxv_") {
+		log.Println("this vide comes from official account space.")
+		return GetOfficialAccountVideoPureUlr(v.Vid)
+	} else {
+		log.Println("this vide comes from Tencent TV space.")
+		v.Vid = strings.Replace(v.Vid, "'", "", 1)
+		return v.Url
+	}
+}

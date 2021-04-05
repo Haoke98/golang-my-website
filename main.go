@@ -65,7 +65,7 @@ func main() {
 	http.Handle("/cookie", logHandlerFunc(cookieHandlerFunc))
 	http.Handle("/account", logHandlerFunc(account.AccountHandler))
 	http.Handle("/password", logHandlerFunc(password.PasswordHandler))
-	http.Handle("/video", logHandlerFunc(video.VideoHandler))
+	http.Handle("/video", logHandlerFunc(video.Handler))
 	http.Handle("/openid", logHandlerFunc(openid.OpenIdHandler))
 	http.Handle("/user", logHandlerFunc(user.UserHandler))
 	account.Load()
