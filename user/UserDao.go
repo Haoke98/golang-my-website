@@ -1,0 +1,49 @@
+package user
+
+import (
+	"izbasar.link/web/database"
+	"log"
+)
+
+const TABLE_NAME = "miniProgram_user"
+
+func GetUserById(id int) User {
+	//video := Video{Id: id}
+	//db := database.GetDB()
+	//defer db.Close()
+	//rows, err := db.Query("SELECT last_changed_time,showTimes,episodeNum,url,vid,belongTo_id,cover_id FROM miniProgram_video where id=?", id)
+	//if err == nil {
+	//	for rows.Next() {
+	//		var lastChangedTime string
+	//		err = rows.Scan(&lastChangedTime, &video.ShowTimes, &video.EpisodeNum, &video.Url, &video.Vid, &video.BelongToId, &video.CoverId)
+	//		if err != nil {
+	//			log.Print("An error has been occurred when scanning:", err)
+	//		} else {
+	//			video.SetLastChangedTime(lastChangedTime)
+	//			return video
+	//		}
+	//	}
+	//	log.Println("video:", video, " have not been found on the DataBase.")
+	//	return video
+	//} else {
+	//	log.Print("An error has been occurred when the querying:", err)
+	//	return video
+	//}
+	return User{}
+}
+
+/**
+默认是UPDATE模式，INSERT只会在初次创建时使用。
+*/
+func Save(user *User) {
+	db := database.GetDB()
+	defer db.Close()
+	_, err := db.Exec("UPDATE ? SET last_changed_time=?,showTimes=?,episodeNum=?,url=?,vid=?,belongTo_id=?,cover_id=? WHERE id=?", TABLE_NAME)
+	if err != nil {
+		log.Print("An error when saving user:", user, "to the Database:", err)
+	} else {
+		/**
+		插入更新成功。
+		*/
+	}
+}

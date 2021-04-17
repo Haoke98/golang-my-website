@@ -2,8 +2,8 @@ package password
 
 import (
 	"encoding/json"
+	"izbasar.link/web/account"
 	"net/http"
-	"sadam.com/m/account"
 	"strconv"
 )
 

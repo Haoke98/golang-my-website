@@ -4,11 +4,12 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"io/ioutil"
+	"izbasar.link/web/myUtil"
 	"log"
 	"net/http"
 	"net/url"
-	"sadam.com/m/myUtil"
 	"time"
 )
 
@@ -127,4 +128,8 @@ func UserGET(w http.ResponseWriter, r *http.Request) (err error) {
 		fmt.Println(err)
 	}
 	return err
+}
+
+func UserGetHandleFunc(c *gin.Context) {
+
 }

@@ -2,14 +2,16 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"io"
+	"izbasar.link/web/account"
+	"izbasar.link/web/user"
+	"izbasar.link/web/user/openid"
+	"izbasar.link/web/video"
 	"log"
 	"math/rand"
 	"net/http"
-	"sadam.com/m/account"
-	"sadam.com/m/openid"
-	"sadam.com/m/password"
-	"sadam.com/m/user"
-	"sadam.com/m/video"
+	"os"
 )
 
 func headerHandlerFunc(w http.ResponseWriter, r *http.Request) {
@@ -57,18 +59,31 @@ func MyPrint(request *http.Request) {
 }
 
 func main() {
-	server := http.Server{
-		Addr: "0.0.0.0:7005",
-	}
+	//日志文件配置
+	f, _ := os.Create("gin.log")
+	gin.DefaultWriter = io.MultiWriter(f)
 
-	http.Handle("/header", logHandlerFunc(headerHandlerFunc))
-	http.Handle("/cookie", logHandlerFunc(cookieHandlerFunc))
-	http.Handle("/account", logHandlerFunc(account.AccountHandler))
-	http.Handle("/password", logHandlerFunc(password.PasswordHandler))
-	http.Handle("/video", logHandlerFunc(video.Handler))
-	http.Handle("/openid", logHandlerFunc(openid.OpenIdHandler))
-	http.Handle("/user", logHandlerFunc(user.UserHandler))
-	account.Load()
-	server.ListenAndServe()
+	router := gin.Default()
+
+	//_=router.Group("/video",video.VideoHandlerFunc)
+
+	router.GET("/video", video.GetHandleFunc)
+	userGroup := router.Group("/user")
+	{
+		userGroup.GET("", user.UserGetHandleFunc)
+		openidGroup := userGroup.Group("/openid")
+		{
+			openidGroup.GET("", openid.GetOpenIdHandleFunc)
+		}
+	}
+	//http.Handle("/header", logHandlerFunc(headerHandlerFunc))
+	//http.Handle("/cookie", logHandlerFunc(cookieHandlerFunc))
+	//http.Handle("/account", logHandlerFunc(account.AccountHandler))
+	//http.Handle("/password", logHandlerFunc(password.PasswordHandler))
+	//http.Handle("/video", logHandlerFunc(video.Handler))
+	//http.Handle("/openid", logHandlerFunc(openid.OpenIdHandler))
+	//http.Handle("/user", logHandlerFunc(user.UserHandler))
+	//account.Load()
+	router.Run(":7005")
 
 }

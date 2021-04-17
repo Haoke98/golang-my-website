@@ -1,8 +1,8 @@
 package video
 
 import (
+	"izbasar.link/web/database"
 	"log"
-	"sadam.com/m/database"
 )
 
 func GetVideoById(id int) Video {

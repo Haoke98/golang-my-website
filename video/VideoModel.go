@@ -1,6 +1,7 @@
 package video
 
 import (
+	"github.com/gin-gonic/gin"
 	"log"
 	"strings"
 	"time"
@@ -42,10 +43,10 @@ func (v *Video) UpdateShowTimes() {
 }
 func (v *Video) GetPureUrl() string {
 	if strings.Contains(v.Vid, "wxv_") {
-		log.Println("this vide comes from official account space.")
+		gin.DefaultWriter.Write([]byte("	this vide comes from official account space.\n"))
 		return GetOfficialAccountVideoPureUlr(v.Vid)
 	} else {
-		log.Println("this vide comes from Tencent TV space.")
+		gin.DefaultWriter.Write([]byte("	this vide comes from Tencent TV space.\n"))
 		v.Vid = strings.Replace(v.Vid, "'", "", 1)
 		return v.Url
 	}

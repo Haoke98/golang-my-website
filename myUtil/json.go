@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"github.com/elastic/go-elasticsearch/v6/esapi"
 	"io/ioutil"
+	"izbasar.link/web/myUtil/httpHelper"
 	"log"
 	"os"
-	"sadam.com/m/myUtil/httpHelper"
 )
 
 func BeautyConsolePrint(s interface{}) {

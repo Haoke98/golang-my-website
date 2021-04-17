@@ -2,11 +2,16 @@ package video
 
 import (
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/gin-gonic/gin"
+	"izbasar.link/web/logger"
 	"log"
 	"net/http"
 	"strconv"
 )
+
+func VideoHandlerFunc(c *gin.Context) {
+
+}
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	var err error
@@ -47,4 +52,22 @@ func GET(w http.ResponseWriter, r *http.Request) (err error) {
 		}
 	}
 	return err
+}
+
+func GetHandleFunc(c *gin.Context) {
+	idStr := c.DefaultQuery("id", "0")
+	id, err := strconv.Atoi(idStr)
+	if err == nil {
+		video := GetVideoById(id)
+		video.UpdateShowTimes()
+		pureUrl := video.GetPureUrl()
+		//c.JSON(http.StatusOK,gin.H{"video":video,"pureUrl":pureUrl})
+		// http.StatusTemporaryRedirect  临时重定向
+		// http.StatusMovedPermanently  永久重定向
+		logger.Log(pureUrl)
+		//c.Redirect(http.StatusTemporaryRedirect,pureUrl)
+		http.Redirect(c.Writer, c.Request, pureUrl, http.StatusTemporaryRedirect)
+	} else {
+		log.Println(err)
+	}
 }
